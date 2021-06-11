@@ -15,6 +15,7 @@ API_URL = 'http://api.openweathermap.org/data/2.5/weather'
 def homepage():
     """Displays results for current weather conditions."""
     city = request.args.get('city')
+    mood = request.args.get('mood')
     units = request.args.get('units')
     params = {
 
@@ -31,6 +32,7 @@ def homepage():
     context = {
         'date': datetime.now(),
         'city': city,
+        'mood': mood,
         'description': result_json['weather'][0]['description'],
         'temp': result_json['main']['temp'],
         'humidity': result_json['main']['humidity'],
