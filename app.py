@@ -28,9 +28,6 @@ def homepage():
     def get_letter_for_units(units):
         """Returns a shorthand letter for the given units."""
         return 'F' if units == 'imperial' else 'C' if units == 'metric' else 'K'
-
-    sun_up = datetime.fromtimestamp(result_json['sys']['sunrise'])
-    sun_down = datetime.fromtimestamp(result_json['sys']['sunset'])
     context = {
         'date': datetime.now(),
         'city': city,
@@ -38,8 +35,6 @@ def homepage():
         'temp': result_json['main']['temp'],
         'humidity': result_json['main']['humidity'],
         'wind_speed': result_json['wind']['speed'],
-        'sunrise': sun_up,
-        'sunset': sun_down,
         'units_letter': get_letter_for_units(units)
     }
 
