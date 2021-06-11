@@ -23,8 +23,27 @@ def homepage():
         'units': units
 
     }
+    result_json = requests.get(API_URL, params=params).json()
 
-    return render_template('home.html')
+    def get_letter_for_units(units):
+        """Returns a shorthand letter for the given units."""
+        return 'F' if units == 'imperial' else 'C' if units == 'metric' else 'K'
+
+    sun_up = datetime.fromtimestamp(result_json['sys']['sunrise'])
+    sun_down = datetime.fromtimestamp(result_json['sys']['sunset'])
+    context = {
+        'date': datetime.now(),
+        'city': city,
+        'description': result_json['weather'][0]['description'],
+        'temp': result_json['main']['temp'],
+        'humidity': result_json['main']['humidity'],
+        'wind_speed': result_json['wind']['speed'],
+        'sunrise': sun_up,
+        'sunset': sun_down,
+        'units_letter': get_letter_for_units(units)
+    }
+
+    return render_template('home.html', **context)
 
 if __name__ == '__main__':
     app.config['ENV'] = 'development'
